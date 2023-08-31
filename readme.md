@@ -62,3 +62,9 @@ docker build --pull --rm -f "DockerFile" -t data-stream-demo:latest "."
 docker container run -it data-stream-demo:latest
 ~~~
 
+## Possible enchansments
+- Error handling should be added to cover possible code problems
+- For multi process execution it can be better to use additional data buffer with designated flags that could be used by each process
+    - End of file indication
+    - Errors
+- For multi process additional mechanism should be developed for analysis of different flags
