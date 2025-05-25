@@ -1,0 +1,35 @@
+pipeline:
+  name: user_behavior_ingestion
+  schedule: "0 * * * *"  # Run every hour
+  enabled: true
+
+source:
+  type: kafka
+  topic: user_events
+  bootstrap_servers:
+    - kafka1.example.com:9092
+    - kafka2.example.com:9092
+
+destination:
+  type: s3
+  bucket: my-data-bucket
+  path: raw/user_events/
+  file_format: parquet
+  compression: snappy
+
+processing:
+  deduplicate: true
+  enrichments:
+    - geo_ip_lookup
+    - user_agent_parser
+
+notifications:
+  on_failure:
+    email: dev-team@example.com
+  on_success:
+    slack_webhook: https://hooks.slack.com/services/TXXXXXX/XXXXXX
+
+metadata:
+  owner: data_team
+  version: 1.2.3
+  last_updated: 2024-05-15
